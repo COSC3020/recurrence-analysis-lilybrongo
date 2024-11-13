@@ -26,19 +26,32 @@ function mystery(n) {
     }
 }
 ```
+The if(n <= 1) statement is constant as well as var count = 0;
+The first and third for loop contain:
+i < n*n
+k < n*n
+this ultimately means that they have a complexity of $n^2$ due to their iterations. 
 
-The runtime complexity of the mystery() function would be $\Theta(n^5)$
-The base case would be when n <= 1, $T(1) = \Theta(1)$. Knowing this, when $n > 1$, the function makes 3 recursive calls and also executes a nested loop. The 3 recursive calls would have a runtime of $3 * T(n/3)$. NExt we have to take into consideration the time complexity of the loop. The first loop runs $n^2$, the second or middle loop runs $n$ times for each of the iterations. Moving inward to the third or inner loop, this one runs $n^2$ times for each of the middle loop iterations. Knowing these three iteration times, we can combine them into $n^2 * n * n^2 = n^5$. Using this total, we can combine the recursive case of $3 * T(n/3)$ with the $n^5$, so we have $3 * T(n/3) + n^5$ when $n > 1$. 
+The second loop, for(var j = 0; j < n; j++), has an interation of just $n$ because of the j<n.
 
-Calculations:
-$T(n) = 3T(n/3) + n^5
+We would then get $n * n^2 * n^2$.
 
-$T(n/3) = 3T(n/9) + (n/3)^5$
-$T(n/3) = 3((3T(n/9)) + (n/3)^5) + n^5$
-$T(n/3) = 9T(n/9) + 3(n/3)^5 + n^5$
+Since there are also 3 recursive calls each divided by 3, this gives us a complexity of $3T(n/3)$. 
+
+After combining the found complexities we would get $T(n) = 3T(n/3) + n^5$ for when n > 1. Along with this, our base case should be T(n) = 1 for when n <= 1. 
+
+The origional problem size of n, will be $T(n) = 3T(n/3) + n^5$. 
+
+With each of the three recursive calls, this is n/3. So we will have to have $T(n) = 3(3T(n/9) + (n/3)^5) + n^5$. Which would then be, $T(n) = 3^2(T(n/9) + 3 * ((n/3)^5)) + n^5. Then simplifying through we would then get $3^2(T(n/9) + (n^5 / 3^5)) + n^5. 
+
+Finally we have to look at when the problem size becomes n/9. This would give us $T(n) = 3^3(T(n/27) + 3^2 * (n^5 / 3^5) + 3(n^5/3^5) + n^5. 
+
+We can see that there is a pattern of $T(n) = 3^i (n/3^i) + n^5/3^4(i-2) + ... + n^5$
+
+Knowing this pattern, I then need to be able to acheive the base case of T(1). This means that if I use log-base3(n) this will help me acheive the necessary base case because log-base 3 (3) is equal to 1. According to the Master Method, I can then compare the exponents in this problem. After plugging in the log-base3 we get an exponent of 1, and with the n^5 there is an exponent of 5. By comparing those, 5 > 1 so we are able to use the n^5 for the final complexity. Since the Master Method allowed us to see that the relationship was 5>1 we can then come to the conclusion of the final compelxity of $O(n^5)$
 
 
-
+Referrenced recurrence-analysis-howardthegr8one-1 respository to get an understanding of what the full proof would look like. Also referrenced geeksforgeeks: https://www.geeksforgeeks.org/how-to-analyse-complexity-of-recurrence-relation/ which gave me a better understanding of recurrence relation analysis. I found the master method was best explained so I worked off of this for my explanation. 
 
 Add your answer to this markdown file. [This
 page](https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/writing-mathematical-expressions)
